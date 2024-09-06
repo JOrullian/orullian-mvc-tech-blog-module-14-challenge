@@ -3,6 +3,7 @@ require('dotenv').config();
 
 let sequelize;
 
+// Initialize database
 if (process.env.DB_URL) {
   sequelize = new Sequelize(process.env.DB_URL);
 } else {
