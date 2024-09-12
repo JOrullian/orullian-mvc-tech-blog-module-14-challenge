@@ -1,0 +1,29 @@
+{{#extend 'main'}}
+  {{#content 'title'}}{{blogPost.title}}{{/content}}
+
+  <h1>{{post.title}}</h1>
+  <p>By {{post.user.username}} on {{post.date}}</p>
+  <p>{{post.content}}</p>
+
+  <hr>
+
+  <!-- In views/blogPost.handlebars -->
+<div class="comments-section">
+  {{#each comments}}
+    <div class="comment">
+      <p><strong>{{this.user.username}}</strong> - {{this.date_created}}</p>
+      <p>{{this.comment_text}}</p>
+    </div>
+  {{/each}}
+
+  {{#if logged_in}}
+    <form id="new-comment-form">
+      <textarea id="comment-text" name="comment_text" required></textarea>
+      <input type="hidden" id="blog_post_id" name="blog_post_id" value="{{id}}" />
+      <button type="submit">Submit Comment</button>
+    </form>
+  {{/if}}
+</div>
+
+  <script src="/js/comment.js"></script>
+{{/extend}}

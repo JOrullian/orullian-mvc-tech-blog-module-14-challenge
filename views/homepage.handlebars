@@ -1,0 +1,19 @@
+{{!-- Extends the main layout --}}
+{{#extend 'main'}}
+  {{#content 'title'}}Homepage{{/content}}
+
+  <h1>Welcome to the Tech Blog</h1>
+
+  {{#if blogPosts.length}}
+    <div class="list-group">
+      {{#each blogPosts as |blogPost|}}
+        <a href="/blog_posts/{{id}}" class="list-group-item list-group-item-action">
+          <h4>{{title}}</h4>
+          <small>Posted by {{user.name}} on {{date_created}}</small>
+        </a>
+      {{/each}}
+    </div>
+  {{else}}
+    <p>No posts yet. Be the first to create one!</p>
+  {{/if}}
+{{/extend}}
