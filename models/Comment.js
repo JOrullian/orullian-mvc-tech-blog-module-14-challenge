@@ -1,4 +1,3 @@
-// models/Comment.js
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
@@ -13,7 +12,7 @@ Comment.init(
       autoIncrement: true,
     },
     comment_text: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     date_created: {
