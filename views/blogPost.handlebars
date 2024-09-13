@@ -1,12 +1,14 @@
-  <h1>{{post.title}}</h1>
-  <p>By {{post.user.username}} on {{post.date}}</p>
-  <p>{{post.content}}</p>
+<h1>{{post.title}}</h1>
 
-  <hr>
+<!-- Ensure the user and date data is being displayed correctly -->
+<p>By {{post.user.username}} on {{post.date}}</p>
+<p>{{post.blog_post_content}}</p>
 
-  <!-- In views/blogPost.handlebars -->
+<hr>
+
+<!-- Comments section -->
 <div class="comments-section">
-  {{#each comments}}
+  {{#each post.comments}}
     <div class="comment">
       <p><strong>{{this.user.username}}</strong> - {{this.date_created}}</p>
       <p>{{this.comment_text}}</p>
@@ -14,12 +16,14 @@
   {{/each}}
 
   {{#if logged_in}}
+    <!-- Comment form -->
     <form id="new-comment-form">
+      <label for="comment-text">Comment:</label>
       <textarea id="comment-text" name="comment_text" required></textarea>
-      <input type="hidden" id="blog_post_id" name="blog_post_id" value="{{id}}" />
+      <input type="hidden" id="blog_post_id" name="blog_post_id" value="{{post.id}}" />
       <button type="submit">Submit Comment</button>
     </form>
   {{/if}}
 </div>
 
-  <script src="/js/comment.js"></script>
+<script src="/js/comment.js"></script>
