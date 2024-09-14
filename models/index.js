@@ -13,17 +13,20 @@ BlogPost.belongsTo(User, {
 });
 
 User.hasMany(Comment, {
-  foreignKey: "user_id",
-  onDelete: "CASCADE",
+  foreignKey: 'user_id',
 });
 
-Comment.belongsTo(User, { foreignKey: "user_id" }); // Fixed the extra space
+Comment.belongsTo(User, {
+  foreignKey: 'user_id',
+  as: 'author',
+});
 
 BlogPost.hasMany(Comment, {
-  foreignKey: "blog_post_id",
-  onDelete: "CASCADE",
+  foreignKey: 'blog_post_id',
 });
 
-Comment.belongsTo(BlogPost, { foreignKey: "blog_post_id" });
+Comment.belongsTo(BlogPost, {
+  foreignKey: 'blog_post_id',
+});
 
 module.exports = { User, BlogPost, Comment };

@@ -3,9 +3,15 @@
 {{#if blogPosts.length}}
   <div class="list-group">
     {{#each blogPosts as |blogPost|}}
-      <a href="/blog_posts/{{blogPost.id}}" class="list-group-item list-group-item-action">
+      <a
+        href="/blog_posts/{{blogPost.id}}"
+        class="list-group-item list-group-item-action"
+      >
         <h4>{{blogPost.title}}</h4>
-        <small>Posted by {{blogPost.user.username}} on {{blogPost.date_created}}</small>
+        <small>Posted by
+          {{blogPost.user.username}}
+          on
+          {{blogPost.date_created}}</small>
       </a>
     {{/each}}
   </div>
