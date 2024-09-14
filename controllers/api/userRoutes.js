@@ -25,7 +25,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Log in a user
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -50,15 +49,23 @@ router.post('/login', async (req, res) => {
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
-      
-      res.json({ user: userData, message: 'You are now logged in!' });
+
+      // Handle redirect after login
+      const redirectUrl = req.body.redirect ? req.body.redirect : '/';
+      res.json({ message: 'Login successful', redirect: redirectUrl });
     });
 
   } catch (err) {
     console.error(err);
-    res.status(400).json({ message: 'Login failed. Please try again.' });
+    res.status(500).json({ message: 'Login failed. Please try again.' });
   }
 });
+
+router.get('/login', (req, res) => {
+  const redirect = req.query.redirect || false; // Use default value if not provided
+  res.render('login', { redirect });
+});
+
 
 // Log out a user
 router.post('/logout', (req, res) => {
