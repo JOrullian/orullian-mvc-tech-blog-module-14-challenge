@@ -5,12 +5,13 @@ This Tech Blog application is a CMS-style blog site built with Node.js, Express.
 
 
 ## Table of Contents
-[Installation](##Installation)
-[Usage](##Usage)
-[Features](##Features)
-[Technologies](##Technologies)
-[Contributing](##Contributing)
-[License](##License)
+[Installation](#installation)
+
+[Usage](#usage)
+
+[Features](#features)
+
+[Credits](#credits)
 
 
 ## Installation

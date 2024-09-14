@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
     
     res.render('homepage', { blogPosts, logged_in: req.session.logged_in });
   } catch (err) {
-    console.error(err); // Log the error to server console
+    console.error(err);
     res.status(500).json({ message: "An error occurred while fetching blog posts." });
   }
 });
@@ -77,7 +77,6 @@ router.get('/blog_posts/:id', async (req, res) => {
   }
 });
 
-// Use withAuth middleware to prevent access to route
 router.get('/profile', withAuth, async (req, res) => {
   try {
     const userData = await User.findByPk(req.session.user_id, {
@@ -92,7 +91,7 @@ router.get('/profile', withAuth, async (req, res) => {
       logged_in: true
     });
   } catch (err) {
-    console.error(err); // Log error for debugging
+    console.error(err);
     res.status(500).json({ message: 'An error occurred while fetching the user profile.' });
   }
 });

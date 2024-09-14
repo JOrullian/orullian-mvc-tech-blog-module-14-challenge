@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
 
-      res.status(201).json(userData); // Use 201 Created for successful signup
+      res.status(201).json(userData);
     });
   } catch (err) {
     console.error(err);
