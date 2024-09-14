@@ -1,6 +1,6 @@
 <h1>{{post.title}}</h1>
 
-<p>By {{post.user.username}} on {{post.date_created}}</p>
+<p>By {{post.user.username}} on {{format_date post.date_created}}</p>
 <p>{{post.blog_post_content}}</p>
 
 <hr>
@@ -9,7 +9,7 @@
 <div class="comments-section">
   {{#each post.comments}}
     <div class="comment">
-      <p><strong>{{author.username}}</strong> - {{date_created}}</p>
+      <p><strong>{{author.username}}</strong> - {{format_date date_created}}</p>
       <p>{{comment_text}}</p>
     </div>
   {{/each}}

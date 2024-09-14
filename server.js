@@ -12,15 +12,15 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const hbs = exphbs.create({ defaultLayout: 'main', layoutsDir: path.join(__dirname, 'views', 'layouts') });
+const hbs = exphbs.create({ defaultLayout: 'main', layoutsDir: path.join(__dirname, 'views', 'layouts'), helpers });
 
 const sess = {
   secret: process.env.SESS_SECRET,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24,
+    maxAge: 1000 * 60 * 60 * 24, // 24 hours
     httpOnly: true,
-    secure: false,
-    sameSite: 'strict',
+    secure: process.env.NODE_ENV === 'production', // secure cookies only in production
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', // 'none' for cross-site in production
   },
   resave: false,
   saveUninitialized: true,
@@ -29,11 +29,14 @@ const sess = {
   })
 };
 
+
 app.use(session(sess));
 
 // Inform Express.js on which template engine to use
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+
+app.set('trust proxy', 1); // Trust first proxy (important for secure cookies)
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
