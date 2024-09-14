@@ -14,7 +14,7 @@ document.querySelector('#signup-form').addEventListener('submit', async (event) 
       });
 
       if (response.ok) {
-        document.location.replace('/homepage'); // Redirect to homepage on successful signup
+        document.location.replace('/'); // Redirect to homepage on successful signup
       } else {
         const errorData = await response.json();
         alert(errorData.message || 'Failed to sign up. Please try again.');

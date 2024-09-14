@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { BlogPost, User } = require('../models');
+const { BlogPost, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 // Fetch blog posts with user information
@@ -26,34 +26,53 @@ router.get('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+// Get all blog_posts for testing
+router.get('/blog_posts', async (req, res) => {
+  try {
+    const blogPosts = await BlogPost.findAll();
+    res.json(blogPosts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-
-
-// Render page for a specific blog post
+// Route to get a specific blog post
 router.get('/blog_posts/:id', async (req, res) => {
+  console.log('ID Parameter:', req.params.id);
   try {
     const blogPostData = await BlogPost.findByPk(req.params.id, {
       include: [
         {
           model: User,
-          attributes: ['username'], // Ensure this matches your actual column name
+          as: 'user',
+          attributes: ['username'],
+        },
+        {
+          model: Comment,
+          as: 'comments',
+          include: [
+            {
+              model: User,
+              as: 'author',
+              attributes: ['username'],
+            },
+          ],
         },
       ],
     });
 
     if (!blogPostData) {
-      return res.status(404).render('404', { message: 'Blog post not found' }); // Consider a custom 404 page
+      return res.status(404).render('404', { message: 'Blog post not found' });
     }
 
     const blogPost = blogPostData.get({ plain: true });
 
     res.render('blogPost', {
-      ...blogPost,
-      logged_in: req.session.logged_in
+      post: blogPost,
+      logged_in: req.session.logged_in,
     });
   } catch (err) {
-    console.error(err); // Log error for debugging
+    console.error('Error in /blog_posts/:id route:', err);
     res.status(500).json({ message: 'An error occurred while fetching the blog post.' });
   }
 });
@@ -94,17 +113,6 @@ router.get('/signup', (req, res) => {
   }
 
   res.render('signup');
-});
-
-// Log out a user
-router.post('/logout', (req, res) => {
-  req.session.destroy(err => {
-    if (err) {
-      console.error('Failed to destroy session:', err);
-      return res.status(500).json({ message: 'Failed to log out' });
-    }
-    res.status(200).json({ message: 'Logged out successfully' });
-  });
 });
 
 module.exports = router;
