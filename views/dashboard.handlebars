@@ -1,0 +1,27 @@
+<h1>Welcome to the Tech Blog</h1>
+
+<!-- Create Blog Post Button -->
+{{#if logged_in}}
+  <a href="/createPost" class="btn btn-primary">Create Blog Post</a>
+{{else}}
+  <a href="/login?redirect=/createPost" class="btn btn-primary">Create Blog Post</a>
+{{/if}}
+
+{{#if blogPosts.length}}
+  <div class="list-group">
+    {{#each blogPosts as |blogPost|}}
+      <a
+        href="/blog_posts/{{blogPost.id}}"
+        class="list-group-item list-group-item-action"
+      >
+        <h4>{{blogPost.title}}</h4>
+        <small>Posted by
+          {{blogPost.user.username}}
+          on
+          {{format_date blogPost.date_created}}</small>
+      </a>
+    {{/each}}
+  </div>
+{{else}}
+  <p>No posts yet. Be the first to create one!</p>
+{{/if}}
