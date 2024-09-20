@@ -1,19 +1,19 @@
 [
     {
     "title": "My First Blog Post",
-    "blog_post_content": "Hey guys! Starting a blog. Hope you will continue reading in the future. Today I was learning React.js and it is a game-changer!",
+    "content": "Hey guys! Starting a blog. Hope you will continue reading in the future. Today I was learning React.js and it is a game-changer!",
     "date_created": "2024-06-22",
     "user_id": "0"
     },
     {
     "title": "Hello, from Texas",
-    "blog_post_content": "Howdy! I just moved to Texas. It is great here and I'm excited to keep posting from this great state!",
+    "content": "Howdy! I just moved to Texas. It is great here and I'm excited to keep posting from this great state!",
     "date_created": "2024-07-9",
     "user_id": "1"
     },
     {
     "title": "Check out this tutorial",
-    "blog_post_content": "Recently found this tutorial on YouTube. Highly recommended to help you learn coding. It comes from the content creator ABCLearnW/Me",
+    "content": "Recently found this tutorial on YouTube. Highly recommended to help you learn coding. It comes from the content creator ABCLearnW/Me",
     "date_created": "2024-08-02",
     "user_id": "2"
     }

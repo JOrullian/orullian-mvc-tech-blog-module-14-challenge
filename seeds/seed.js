@@ -15,6 +15,8 @@ const seedDatabase = async () => {
       returning: true,
     });
 
+    console.log(users);
+
     console.log('Seeding blog posts...');
     for (const blogPost of blogPostData) {
       await BlogPost.create({
