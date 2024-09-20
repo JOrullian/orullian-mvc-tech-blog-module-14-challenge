@@ -3,15 +3,21 @@ const { BlogPost, User, Comment } = require("../../models");
 const withAuth = require("../../utils/auth");
 
 // Create a new blog post
-router.post("/", withAuth, async (req, res) => {
-  try {
+router.post("/newPost", withAuth, async (req, res) => {
+  console.log(req.body);
+
+  try {    
     const blogPostData = await BlogPost.create({
-      ...req.body,
+      title: req.body.title,
+      content: req.body.content,
       user_id: req.session.user_id,
     });
 
+    console.log(blogPostData);
+
     res.status(200).json(blogPostData);
   } catch (err) {
+    console.log(err);
     res.status(400).json({ message: 'Failed to create post', err });
   }
 });
@@ -20,7 +26,7 @@ router.post("/", withAuth, async (req, res) => {
 router.put("/:id", withAuth, async (req, res) => {
   try {
     const [updated] = await BlogPost.update(
-      { blog_post_content: req.body.blog_post_content },
+      { content: req.body.content },
       { where: { id: req.params.id, user_id: req.session.user_id } }
     );
 
