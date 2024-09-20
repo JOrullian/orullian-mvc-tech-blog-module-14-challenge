@@ -21,8 +21,8 @@ document.querySelector('#create-post-form').addEventListener('submit', async (ev
       console.log(response)
   
       if (response.ok) {
-        // Redirect to the homepage or blog post list after successful creation
-        document.location.replace('/');
+        // Redirect to the dashboard or blog post list after successful creation
+        document.location.replace('/dashboard');
       } else {
         alert('Failed to create post');
       }

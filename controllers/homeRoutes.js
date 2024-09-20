@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { BlogPost, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
-// Fetch blog posts with user information
+// Root route (Homepage) - display all blog posts
 router.get('/', async (req, res) => {
   try {
     const blogPostData = await BlogPost.findAll({
@@ -17,8 +17,6 @@ router.get('/', async (req, res) => {
 
     const blogPosts = blogPostData.map(blogPost => blogPost.get({ plain: true }));
 
-    console.log(blogPosts);
-    
     res.render('homepage', { blogPosts, logged_in: req.session.logged_in });
   } catch (err) {
     console.error(err);
@@ -26,7 +24,33 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get all blog_posts for testing
+// Dashboard route - only shows logged-in user's blog posts
+router.get('/dashboard', withAuth, async (req, res) => {
+  try {
+    const blogPostData = await BlogPost.findAll({
+      where: {
+        user_id: req.session.user_id,
+      },
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['username'],
+        },
+      ],
+    });
+
+    const blogPosts = blogPostData.map(blogPost => blogPost.get({ plain: true }));
+
+    // Render the dashboard view with the user's blog posts
+    res.render('dashboard', { blogPosts, logged_in: req.session.logged_in });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'An error occurred while fetching your blog posts.' });
+  }
+});
+
+// Get all blog_posts for testing (optional)
 router.get('/blog_posts', async (req, res) => {
   try {
     const blogPosts = await BlogPost.findAll();
@@ -86,6 +110,7 @@ router.get('/createPost', withAuth, (req, res) => {
   }
 });
 
+// Profile route (for logged-in users)
 router.get('/profile', withAuth, async (req, res) => {
   try {
     const userData = await User.findByPk(req.session.user_id, {
@@ -105,18 +130,20 @@ router.get('/profile', withAuth, async (req, res) => {
   }
 });
 
+// Login route
 router.get('/login', (req, res) => {
   if (req.session.logged_in) {
-    res.redirect('/profile');
+    res.redirect('/dashboard');  // Redirect to dashboard if already logged in
     return;
   }
 
   res.render('login');
 });
 
+// Signup route
 router.get('/signup', (req, res) => {
   if (req.session.logged_in) {
-    res.redirect('/homepage');
+    res.redirect('/dashboard');  // Redirect to dashboard if already logged in
     return;
   }
 

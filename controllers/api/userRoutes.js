@@ -36,39 +36,32 @@ router.post('/', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    const { username, password } = req.body;
-
-    // Validate input
-    if (!username || !password) {
-      return res.status(400).json({ message: 'username and password are required' });
-    }
-
-    const userData = await User.findOne({ where: { username } });
+    const userData = await User.findOne({ where: { username: req.body.username } });
 
     if (!userData) {
-      return res.status(400).json({ message: 'Incorrect username or password, please try again' });
+      res.status(400).json({ message: 'Incorrect username or password, please try again' });
+      return;
     }
 
-    const validPassword = await userData.checkPassword(password);
+    const validPassword = await userData.checkPassword(req.body.password);
 
     if (!validPassword) {
-      return res.status(400).json({ message: 'Incorrect username or password, please try again' });
+      res.status(400).json({ message: 'Incorrect username or password, please try again' });
+      return;
     }
 
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
 
-      // Handle redirect after login
-      const redirectUrl = req.body.redirect ? req.body.redirect : '/';
-      res.json({ message: 'Login successful', redirect: redirectUrl });
+      res.json({ message: 'Login successful', redirect: '/dashboard' });
     });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Login failed. Please try again.' });
+    res.status(500).json(err);
   }
 });
+
 
 router.get('/login', (req, res) => {
   const redirect = req.query.redirect || false; // Use default value if not provided
