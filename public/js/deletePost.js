@@ -3,7 +3,7 @@ document
   .addEventListener("click", async (event) => {
     event.preventDefault();
 
-    const postId = event.target.getAttribute("data-id"); // Assume the post ID is stored in a data attribute
+    const postId = event.target.getAttribute("data-id");
 
     if (postId) {
       const userConfirmed = window.confirm(
