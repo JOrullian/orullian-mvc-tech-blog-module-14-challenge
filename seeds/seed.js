@@ -5,7 +5,7 @@ const userData = require("./userData.json");
 const blogPostData = require("./blogPostData.json");
 
 const seedDatabase = async () => {
-  // if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== "production") {
     try {
       await sequelize.sync({ force: true }); // Only in development
 
@@ -29,9 +29,9 @@ const seedDatabase = async () => {
     } finally {
       process.exit(0);
     }
-  // } else {
-  //   console.log("Skipping seed in production.");
-  // }
+  } else {
+    console.log("Skipping seed in production.");
+  }
 };
 
 seedDatabase();
